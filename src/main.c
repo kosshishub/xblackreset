@@ -12,7 +12,7 @@ int main( int argc, char **argv )
 	}
 
 	Display *dpy = XOpenDisplay(NULL);
-    int screen = DefaultScreen (dpy);
+	int screen = DefaultScreen (dpy);
 	Window root = RootWindow(dpy, screen);
 
 	RRCrtc target_crtc = 0;
@@ -32,17 +32,17 @@ int main( int argc, char **argv )
 		return 1;
 	}
 
-   	XRRScreenResources * res = XRRGetScreenResources( dpy, root );
-   	int n = res->noutput;
-    for( int i = 0; i < n; ++i )
-   	{	
+	XRRScreenResources * res = XRRGetScreenResources( dpy, root );
+	int n = res->noutput;
+	for( int i = 0; i < n; ++i )
+	{	
 		RROutput output = res->outputs[i];
 		XRROutputInfo * output_info = XRRGetOutputInfo( dpy, res, output);
 			
 		if ( strcmp(output_info->name, target_name) == 0 )
 			target_crtc = output_info->crtc;
 		XRRFreeOutputInfo( output_info ); 
-    }
+	}
 
 	if(!target_crtc)
 	{
@@ -64,7 +64,7 @@ int main( int argc, char **argv )
 
 	int i = 0;
 	printf("%i\n", gamma->red[i] );
-	gamma->red  [i] = 0;
+	gamma->red	[i] = 0;
 	gamma->green[i] = 0;
 	gamma->blue [i] = 0;
 
