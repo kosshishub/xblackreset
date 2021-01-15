@@ -3,7 +3,8 @@
 #include <stdio.h>
 #include <X11/extensions/Xrandr.h>
 
-int main( int argc, char **argv )
+int 
+main( int argc, char **argv )
 {
 	if(argc != 2)
 	{
@@ -12,23 +13,25 @@ int main( int argc, char **argv )
 	}
 
 	Display *dpy = XOpenDisplay(NULL);
+	if(!dpy)
+	{
+		printf("XOpenDisplay failed\n");
+		return 1;
+	}
+
 	int screen = DefaultScreen (dpy);
 	Window root = RootWindow(dpy, screen);
 
 	RRCrtc target_crtc = 0;
-
-	char *target_name = argv[1];
+	char  *target_name = argv[1];
 
 	int major_versionp = 0;
 	int minor_versionp = 0;
-
 	XRRQueryVersion( dpy, &major_versionp, &minor_versionp );
-
 	int xrr_version = major_versionp*100 + minor_versionp;
-
 	if(xrr_version < 102)
 	{
-		printf("XRR Version too old?\n");
+		printf("XRR version too old?\n"); 
 		return 1;
 	}
 
@@ -39,8 +42,10 @@ int main( int argc, char **argv )
 		RROutput output = res->outputs[i];
 		XRROutputInfo * output_info = XRRGetOutputInfo( dpy, res, output);
 			
-		if ( strcmp(output_info->name, target_name) == 0 )
+		if ( strcmp(output_info->name, target_name) == 0 ){
 			target_crtc = output_info->crtc;
+			break;
+		}
 		XRRFreeOutputInfo( output_info ); 
 	}
 
@@ -51,10 +56,8 @@ int main( int argc, char **argv )
 	}
 
 	int ramp_size = XRRGetCrtcGammaSize( dpy, target_crtc );
-	printf("Ramp size %i\n", ramp_size );
 
 	XRRCrtcGamma *gamma = NULL;
-
 	gamma = XRRGetCrtcGamma(dpy, target_crtc);
 	if(!gamma)
 	{
@@ -63,8 +66,7 @@ int main( int argc, char **argv )
 	}
 
 	int i = 0;
-	printf("%i\n", gamma->red[i] );
-	gamma->red	[i] = 0;
+	gamma->red  [i] = 0;
 	gamma->green[i] = 0;
 	gamma->blue [i] = 0;
 
