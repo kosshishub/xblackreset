@@ -1,7 +1,7 @@
 # xblackreset
-Tiny tool that resets gamma lut black level to 0 in Xorg.
+Xorg tool to reset absolute black to 0 while keeping rest of the ramp untouched. 
 
-Primary use case is improving CRT black levels while avoiding black crush. 
+Primary use case is hackily improving black levels on CRT-displays while avoiding black crush. 
 
 Example usage:
 ```bash
@@ -10,5 +10,7 @@ xblackreset Output-0
 ```
 
 ## License
-GPLv2
+GPL-2
+
+Program is partly based on [xcalib](https://github.com/OpenICC/xcalib), credits to its authors.
 
